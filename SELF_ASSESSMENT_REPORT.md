@@ -16,18 +16,23 @@ Total I claim: 100 / 100
 | 6 | AI-LOG.md | 10 | 10 | `AI-LOG.md`: one entry per request R1–R8 plus set-up and the final pass, each with the tool, the request, the result commit, and Kept/Changed/Rejected. Changed and Rejected match `REVIEW.md` 5, 6, 7 |
 | 7 | Scope and commit history | 10 | 10 | `8db4dba` is the untouched starter, then one commit per request: R1 `9eb6aef`, R2 `3a33006`, R3 `aaa7f54`, R4 `58c2ab7`, R5 `a083d81`, R6 `e416a38`, R8 `91b0dab` (R7 changed nothing). Row 3 prints nothing. Row 13: one `bootstrap` line, `vite.config.js` untouched. Paperwork in separate commits after them |
 
+**Final run.** Rows 4–10 and 14–19 were run once more on the final code in a real
+Chrome, with real mouse and key events and every host except `localhost` blocked:
+`tools/rows.mjs`, output in `evidence/chromium-run.txt`, screenshots
+`evidence/row18-*.png` and `evidence/row19-*.png`. All of them pass there.
+
 ## What I did not manage
 
-- **No real browser extensions or DevTools switches.** I could not use React DevTools or
-  DevTools *Offline* in the app's browser pane.
-  - Row 15 was checked by walking React's fiber tree from the page.
-  - Row 19's offline case was checked by listing every resource origin (all
-    `localhost`) and reading `bootstrap.min.css` for remote URLs.
-  - The marker will run both for real in Chromium.
-- **Keyboard rows not re-run on the final commit.** The last pass on `91b0dab` ran
-  through DOM events, because the app window was hidden. Rows 8 and 18 with real keys
-  were last run on `3a33006` and `58c2ab7`, and the R6 outline only by the assistant's
-  own Tab run.
+- **React DevTools itself.** Row 15 was checked by walking React's fiber tree (one
+  provider, above the header, the cards and the panel), not in the extension's
+  *Components* tab.
+- **The DevTools *Offline* switch itself.** Row 19 ran in a Chrome that cannot resolve
+  any host but `localhost`, which is the rubric's marking condition, not with the
+  switch.
+- **A script ran the final table, not my hands.** `tools/rows.mjs` sends real clicks
+  and keys, and its first run had a fault of its own (it clicked while the page was
+  still scrolling). The earlier runs in the app's browser pane were typed and clicked
+  one row at a time.
 - **The assistant wrote all the code.** My part was the plan of work, the commits, the
   rows and the decisions. Those were carried out through Claude Code, which also
   drafted these three files.

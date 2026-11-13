@@ -37,17 +37,26 @@ export default function App() {
   return (
     <WishlistProvider>
       <Header />
-      <main>
+      <main className="container">
         <SearchBox value={query} onChange={setQuery} />
-        <p role="status" className="status">{statusText({ loading, failed, products })}</p>
+        <p role="status" className="status my-2">{statusText({ loading, failed, products })}</p>
         {failed && (
-          <button type="button" className="retry" onClick={retry}>Retry</button>
+          <button type="button" className="btn btn-outline-primary mb-3" onClick={retry}>Retry</button>
         )}
-        <div className="layout">
-          <ProductList products={products} onAddToCart={addToCart} />
-          <div className="sidebar">
-            <CartSummary items={cart} onOrderPlaced={() => setCart([])} />
-            <SavedPanel />
+        {/* Below lg everything stacks; from lg the cart and Saved sit beside the products. */}
+        <div className="row g-4">
+          <div className="col-lg-8">
+            <ProductList products={products} onAddToCart={addToCart} />
+          </div>
+          <div className="col-lg-4">
+            <div className="row g-4">
+              <div className="col-md-6 col-lg-12">
+                <CartSummary items={cart} onOrderPlaced={() => setCart([])} />
+              </div>
+              <div className="col-md-6 col-lg-12">
+                <SavedPanel />
+              </div>
+            </div>
           </div>
         </div>
       </main>

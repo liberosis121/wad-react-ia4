@@ -9,11 +9,13 @@ export default function CartSummary({ items, onOrderPlaced }) {
   const total = items.reduce((sum, line) => sum + line.price * line.quantity, 0);
 
   return (
-    <aside aria-label="Cart" className="cart">
-      <h2>Cart</h2>
-      <p>{formatItems(count)}</p>
-      <p>Total: {formatPrice(total)}</p>
-      <CheckoutForm itemCount={count} total={total} onOrderPlaced={onOrderPlaced} />
+    <aside aria-label="Cart" className="card">
+      <div className="card-body">
+        <h2 className="card-title h5">Cart</h2>
+        <p className="mb-1">{formatItems(count)}</p>
+        <p className="mb-0">Total: {formatPrice(total)}</p>
+        <CheckoutForm itemCount={count} total={total} onOrderPlaced={onOrderPlaced} />
+      </div>
     </aside>
   );
 }

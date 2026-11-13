@@ -27,6 +27,8 @@ export default function CheckoutForm({ itemCount, total, onOrderPlaced }) {
   const id = useId();
 
   const errors = validate(fields);
+  // Bootstrap only shows .invalid-feedback after a sibling with .is-invalid,
+  // so an input with an error gets that class as well as aria-invalid.
   const nameError = submitted ? errors.name : undefined;
   const phoneError = submitted ? errors.phone : undefined;
   const cartError = submitted && itemCount === 0 ? 'Add something to the cart first.' : '';
@@ -51,52 +53,58 @@ export default function CheckoutForm({ itemCount, total, onOrderPlaced }) {
   }
 
   return (
-    <form aria-label="Checkout" className="checkout" noValidate onSubmit={handleSubmit}>
-      <div className="field">
-        <label htmlFor={`${id}-name`}>Name</label>
+    <form aria-label="Checkout" className="border-top mt-3 pt-3" noValidate onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label htmlFor={`${id}-name`} className="form-label">Name</label>
         <input
           id={`${id}-name`}
           type="text"
+          className={nameError ? 'form-control is-invalid' : 'form-control'}
           autoComplete="name"
           value={fields.name}
           onChange={(event) => setField('name', event.target.value)}
           aria-invalid={nameError ? 'true' : undefined}
           aria-describedby={nameError ? `${id}-name-error` : undefined}
         />
-        {nameError && <p id={`${id}-name-error`} className="field-error">{nameError}</p>}
+        {nameError && <p id={`${id}-name-error`} className="invalid-feedback mb-0">{nameError}</p>}
       </div>
 
-      <div className="field">
-        <label htmlFor={`${id}-phone`}>Phone</label>
+      <div className="mb-3">
+        <label htmlFor={`${id}-phone`} className="form-label">Phone</label>
         <input
           id={`${id}-phone`}
           type="tel"
+          className={phoneError ? 'form-control is-invalid' : 'form-control'}
           autoComplete="tel"
           value={fields.phone}
           onChange={(event) => setField('phone', event.target.value)}
           aria-invalid={phoneError ? 'true' : undefined}
           aria-describedby={phoneError ? `${id}-phone-error` : undefined}
         />
-        {phoneError && <p id={`${id}-phone-error`} className="field-error">{phoneError}</p>}
+        {phoneError && <p id={`${id}-phone-error`} className="invalid-feedback mb-0">{phoneError}</p>}
       </div>
 
-      <div className="field">
-        <label htmlFor={`${id}-note`}>Note (optional)</label>
+      <div className="mb-3">
+        <label htmlFor={`${id}-note`} className="form-label">Note (optional)</label>
         <textarea
           id={`${id}-note`}
+          className="form-control"
           rows={3}
           maxLength={NOTE_MAX}
           value={fields.note}
           onChange={(event) => setField('note', event.target.value.slice(0, NOTE_MAX))}
           aria-describedby={`${id}-note-count`}
         />
-        <p id={`${id}-note-count`} className="note-count">{fields.note.length}/{NOTE_MAX}</p>
+        <p id={`${id}-note-count`} className="form-text text-end mb-0">{fields.note.length}/{NOTE_MAX}</p>
       </div>
 
-      <button type="submit">Place order</button>
+      <button type="submit" className="btn btn-primary w-100">Place order</button>
 
       {/* Announced politely, but not role="status": the page has exactly one. */}
-      <p aria-live="polite" className={cartError ? 'form-message field-error' : 'form-message'}>
+      <p
+        aria-live="polite"
+        className={cartError ? 'mt-2 mb-0 text-danger-emphasis' : 'mt-2 mb-0 text-success-emphasis'}
+      >
         {cartError || confirmation}
       </p>
     </form>

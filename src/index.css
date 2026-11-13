@@ -1,47 +1,10 @@
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.5; color: #1d1d1f; background: #fafafa; }
-/* The bottom padding keeps the fixed "Test conditions" panel off the content. */
-main { max-width: 960px; margin: 0 auto; padding: 0 16px 96px; }
-.page-header {
-  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 16px;
-  max-width: 960px; margin: 0 auto; padding: 16px 16px 12px;
-}
-.page-header h1, .page-header p { margin: 0; }
-button { min-height: 44px; padding: 0 14px; font: inherit; cursor: pointer; }
+/* Only what Bootstrap does not give. Loaded after bootstrap.min.css (src/main.jsx). */
 
-.search label { display: block; font-weight: 600; }
-.search input { width: 100%; min-height: 44px; padding: 0 10px; font: inherit; }
+/* Touch targets: a Bootstrap .btn and .form-control are 38 px tall. */
+.btn, .form-control { min-height: 44px; }
 
-/* Always in the page, so its height is reserved and the list does not jump. */
-.status { min-height: 1.5em; margin: 8px 0; }
-.retry { margin-bottom: 12px; }
+/* The status line is always in the page: keep its line so the list does not jump. */
+.status { min-height: 1.5rem; }
 
-.layout { display: grid; gap: 16px; }
-.products {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;
-  margin: 0; padding: 0; list-style: none; min-width: 0;
-}
-.sidebar { display: grid; gap: 16px; min-width: 0; }
-.card, .cart, .saved { padding: 12px; border: 1px solid #d2d2d7; border-radius: 8px; background: #fff; }
-.card { min-width: 0; }
-.card h2, .cart h2, .saved h2 { margin: 0; font-size: 1.1rem; overflow-wrap: anywhere; }
-.card p, .cart p, .saved p { margin: 4px 0; }
-.saved ul { margin: 4px 0; padding-left: 20px; overflow-wrap: anywhere; }
-/* A pressed Save button looks pressed. */
-button[aria-pressed="true"] { background: #1d1d1f; color: #fff; border-color: #1d1d1f; }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.description { overflow-wrap: anywhere; }
-
-.checkout { display: grid; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #d2d2d7; }
-.field label { display: block; font-weight: 600; }
-.field input, .field textarea { display: block; width: 100%; min-height: 44px; padding: 8px 10px; font: inherit; }
-.field textarea { resize: vertical; }
-.field [aria-invalid="true"] { border: 2px solid #b00020; }
-.cart .field-error { color: #b00020; overflow-wrap: anywhere; }
-.cart .note-count { text-align: right; color: #515154; }
-/* Always in the form (a live region), so its line is reserved. */
-.cart .form-message { min-height: 1.5em; margin: 0; overflow-wrap: anywhere; }
-
-@media (min-width: 720px) {
-  .layout { grid-template-columns: minmax(0, 1fr) 240px; align-items: start; }
-}
+/* Keeps the fixed "Test conditions" panel off the end of the page. */
+main { padding-bottom: 96px; }

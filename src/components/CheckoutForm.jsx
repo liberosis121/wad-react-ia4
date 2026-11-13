@@ -32,6 +32,10 @@ export default function CheckoutForm({ itemCount, total, onOrderPlaced }) {
   const nameError = submitted ? errors.name : undefined;
   const phoneError = submitted ? errors.phone : undefined;
   const cartError = submitted && itemCount === 0 ? 'Add something to the cart first.' : '';
+  // The confirmation describes the order that emptied the cart, so it is only
+  // shown while the cart is still empty: adding a product hides it. Worked out
+  // here on every render — nothing is reset by an effect.
+  const shownConfirmation = itemCount === 0 ? confirmation : '';
 
   function setField(name, value) {
     setFields((current) => ({ ...current, [name]: value }));
@@ -105,7 +109,7 @@ export default function CheckoutForm({ itemCount, total, onOrderPlaced }) {
         aria-live="polite"
         className={cartError ? 'mt-2 mb-0 text-danger-emphasis' : 'mt-2 mb-0 text-success-emphasis'}
       >
-        {cartError || confirmation}
+        {cartError || shownConfirmation}
       </p>
     </form>
   );

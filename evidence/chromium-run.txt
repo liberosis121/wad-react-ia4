@@ -1,0 +1,37 @@
+Browser: Chrome/157.0.8103.51, headless, started with --host-resolver-rules=MAP * ~NOTFOUND , EXCLUDE localhost
+Commit: 945736e  Page: http://localhost:5173  Date: 2026-11-13T18:54:27.335Z
+
+network | a request to another host, from the page | blocked: Failed to fetch
+row 4 | cards, in order | ["T-shirt","Hoodie","Áo sơ mi tay dài kẻ sọc xanh navy","Cap","Tote bag","Socks, 3 pairs","Jacket","Scarf <i>limited</i>"]
+row 4 | Cap card text / <i> elements in the list / status | ["Cap95.000 đDetailsSaveAdd to cart",0,""]
+row 5 | 1 s after typing cap: status, cards on screen | ["Loading products…",8]
+row 5 | then | only Cap, status empty, 2029 ms after the last key
+row 6 | error mode: status, cards, Retry buttons | ["Could not load products.",0,1]
+row 6 | after Retry: status, cards, Retry present | ["",8,false]
+row 7 | 0.5 s after typing sc: cards, status | [["Scarf <i>limited</i>"],""]
+row 7 | 3.5 s after: cards, status | [["Scarf <i>limited</i>"],""]
+row 8 | requests on reload (StrictMode) | ["/api/products?q= (canceled)","/api/products?q= 200"]
+row 8 | requests while typing c, a, p one second apart, then 3 s idle | ["/api/products?q=c 200","/api/products?q=ca 200","/api/products?q=cap 200"]
+row 9 | Details opened on Cap, 4th card | ["T-shirt:false","Hoodie:false","Áo sơ mi tay dài kẻ sọc xanh navy:false","Cap:true","Tote bag:false","Socks, 3 pairs:false","Jacket:false","Scarf <i>limited</i>:false"]
+row 9 | after typing a | ["Áo sơ mi tay dài kẻ sọc xanh navy:false","Cap:true","Tote bag:false","Socks, 3 pairs:false","Jacket:false","Scarf <i>limited</i>:false"]
+row 9 | Cap card text | Cap95.000 đDetailsSaveAdd to cartAdjustable strap.
+row 10 | after Add to cart on Hoodie and searching shirt: cards, cart | [["T-shirt"],"1 item / Total: 420.000 đ"]
+row 14 | while searching hood: cards, header, Saved panel | [["Hoodie"],"ShopSaved: 2",["Cap","Jacket"]]
+row 14 | every header text seen (sampled each 30 ms) / Saved panel / pressed Save buttons | [["ShopSaved: 2"],["Cap","Jacket"],["Cap","Jacket"]]
+row 15 | React fiber tree | {"contextProviders":["depth 4"],"WishlistProvider":[3],"Header":[5],"ProductCard":[10],"SavedPanel":[10],"firstElementInRoot":"HEADER"}
+row 17 | before the first Place order, form text | NamePhoneNote (optional)0/200Place order
+row 17 | Place order, all empty: Name [message, aria-invalid], Phone [message, aria-invalid], form message | [["Enter your name.","true"],["Enter a 10-digit phone number starting with 0.","true"],"Add something to the cart first."]
+row 17 | Phone 090123456: Name message, Phone message | ["Enter your name.","Enter a 10-digit phone number starting with 0."]
+row 16 | Hoodie added, Name An, Phone completed: field values, messages left | ["An","0901234567","","",""]
+row 16 | after Place order: message, cart, field values, address bar, navigations | ["Order placed for An: 1 item, 420.000 đ.","0 items / Total: 0 đ",["","",""],"http://localhost:5173/",1]
+row 16 | header (wishlist untouched) | ShopSaved: 0
+REVIEW 6 | after adding Cap to the new cart: cart, form message | ["1 item / Total: 95.000 đ",""]
+row 18 | 29 stops, Tab pressed 28 times from the search box | ["Search products","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Details","Save","Add to cart","Name","Phone","Note (optional)","Place order"]
+row 18 | focus ring on those stops (distinct values) | ["focus-visible solid 3px rgb(10, 88, 202)"]
+row 19 | 360 px | {"clientWidth":345,"scrollWidth":345,"productColumns":1,"shortestButton":44,"shortestField":44,"elementsPastEdge":0,"placeOrderColour":"rgb(13, 110, 253)"}
+row 19 | 768 px | {"clientWidth":753,"scrollWidth":753,"productColumns":2,"shortestButton":44,"shortestField":44,"elementsPastEdge":0,"placeOrderColour":"rgb(13, 110, 253)"}
+row 19 | 1280 px | {"clientWidth":1265,"scrollWidth":1265,"productColumns":2,"shortestButton":44,"shortestField":44,"elementsPastEdge":0,"placeOrderColour":"rgb(13, 110, 253)"}
+row 19 | 360 px with the form messages shown | {"clientWidth":345,"scrollWidth":345,"productColumns":1,"shortestButton":44,"shortestField":44,"elementsPastEdge":0,"placeOrderColour":"rgb(13, 110, 253)","messages":["block: Enter your name.","block: Enter a 10-digit phone number starting with 0."]}
+row 19 | every origin that answered a request during the whole run | ["http://localhost:5173","data: (inline)"]
+row 19 | requests that got no answer | ["https://example.com/ net::ERR_NAME_NOT_RESOLVED"]
+row 19 | elements: <label> count, every form control has one <label>, elements faking a button with role=button | [4,true,0]

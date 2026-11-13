@@ -160,3 +160,31 @@ the commits. The commit before a request is the starting point of its diff.
     hidden and the pane cannot send keys to a hidden page.
   - Rows 8 and 18 were last run with real keys, on `3a33006` and `58c2ab7`, and the R6
     outline was checked by the assistant's own Tab run.
+
+## 2026-11-14 01:56 — the whole table again in a real Chromium, network blocked
+- **Tool:** Claude Code. For this part I switched the main session from Opus 5.5 to
+  Claude Fable 5.2. No request went to the coding sub-agent, and nothing in `src/`
+  changed.
+- **Asked for:** close the gaps my self-assessment admitted: rows 15 and 19 not run
+  the way the marking runs them, and the keyboard rows not re-run on the final code.
+- **Result:** `tools/rows.mjs`, a script with no packages. It starts Chrome headless
+  with every host except `localhost` unresolvable, and drives the page with real mouse
+  and key events over the DevTools protocol. Output: `evidence/chromium-run.txt` and
+  six screenshots in `evidence/`.
+  - Rows 4–10 and 14–19 all pass on the final code.
+  - A request from the page to another host fails with `ERR_NAME_NOT_RESOLVED`, and
+    the page is still styled.
+  - Row 18: 28 real Tab presses, 29 stops, each with `solid 3px rgb(10, 88, 202)`.
+  - Row 8: `q=c`, `q=ca`, `q=cap`, one each.
+- **Kept:** the page as it is. The run found nothing to change in `src/`.
+- **Changed:** the script, once. Its first run reported Phone `7` and no order on
+  row 16. Bootstrap sets `scroll-behavior: smooth`, and the script clicked while the
+  page was still scrolling, so the click missed the Phone field. It now scrolls
+  instantly. It also counted its own blocked probe as an origin.
+- **Rejected:** —
+- **Not done:** the React DevTools extension itself (row 15 is still read from the
+  fiber tree), and the DevTools *Offline* switch itself.
+- **Also committed here:** `evidence/working-notes.md`, the notes kept after each
+  request while the work went on: the sentence sent, the commit, what each row
+  showed. This log was written from them. The notes were written during the work,
+  but they and this log were committed only after R8.

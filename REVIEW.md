@@ -6,6 +6,8 @@ The assistant is Claude Fable 5.2 at high effort, one conversation from start to
 given `brief.md` and `brief-ia4.md`. I committed before every request, so each commit
 named `assistant Rn` is that one request's diff. The rows quoted below are README's
 *Done means* rows. What I saw on each row is in [`evidence/done-means.md`](evidence/done-means.md).
+The final code was run once more in a real Chrome with every host but `localhost`
+blocked: [`evidence/chromium-run.txt`](evidence/chromium-run.txt).
 
 | Commit | Request |
 |---|---|

@@ -13,6 +13,46 @@ How a row was run:
   send keys to a hidden page. That pass set the fields through React's input events
   and clicked through the DOM; the keyboard rows (8, 18) were not repeated in it.
 
+## Real Chromium, every host but localhost blocked (final code)
+
+Run by `node tools/rows.mjs`; the full output is [`chromium-run.txt`](chromium-run.txt).
+
+- **Browser:** Chrome, headless, started with
+  `--host-resolver-rules=MAP * ~NOTFOUND , EXCLUDE localhost`, so no host except
+  `localhost` can be reached. This is the rubric's marking condition.
+- **Input:** real mouse and key events sent through the DevTools protocol, not DOM
+  events. The script only reads the page to report what is on it.
+- **Code:** commit `945736e`, whose `src/` is the same as `91b0dab`.
+
+| # | Seen |
+|---|---|
+| network | a request from the page to another host fails with `net::ERR_NAME_NOT_RESOLVED` |
+| 4 | 8 cards in API order; the Cap card reads `95.000 đ`; no `<i>` element; status empty |
+| 5 | 1 s after typing `cap`: `Loading products…` with 8 cards; only Cap 2029 ms after the last key |
+| 6 | `Could not load products.`, 0 cards, 1 Retry; after Retry 8 cards and no Retry |
+| 7 | `sc`: only the scarf at 0.5 s and at 3.5 s, status empty |
+| 8 | reload: `q=` *(canceled)* then `q=` 200; typing: `q=c`, `q=ca`, `q=cap`, one each, nothing more in 3 s |
+| 9 | Cap open as the 4th card; after `a` Cap is 2nd, still `true`, every other card `false` |
+| 10 | only T-shirt; cart `1 item / Total: 420.000 đ` |
+| 14 | the header only ever read `Saved: 2` (sampled every 30 ms); panel Cap, Jacket; both pressed after clearing |
+| 15 | one context provider in the fiber tree (depth 4, inside `WishlistProvider` at 3), above `Header` (5), `ProductCard` (10) and `SavedPanel` (10) |
+| 16 | `Order placed for An: 1 item, 420.000 đ.`; `0 items / Total: 0 đ`; fields empty; `http://localhost:5173/`; 1 navigation |
+| 17 | no message before; then one per field with `aria-invalid="true"`, and the cart message; Phone `090123456` keeps the phone message |
+| 18 | 28 real Tab presses from the search box: 29 stops in reading order, each `:focus-visible` with `solid 3px rgb(10, 88, 202)`. Screenshots `row18-focus-button.png`, `row18-focus-place-order.png` |
+| 19 | styled with the network blocked (`Place order` is `rgb(13, 110, 253)`); only `localhost:5173` and inline `data:` answered. At 360, 768, 1280 px: `scrollWidth` = `clientWidth`, 0 elements past the edge, shortest button and field 44 px, 1 / 2 / 2 columns. Screenshots `row19-360.png`, `row19-768.png`, `row19-1280.png`, `row19-360-form.png` |
+
+At 360 px `clientWidth` reads 345 because headless Chrome draws a 15 px scrollbar.
+
+**What this run still does not do.** It does not open the React DevTools extension:
+row 15 is read from React's fiber tree. It blocks the network by host, not with the
+DevTools *Offline* switch.
+
+**The script was wrong once.** Its first run reported Phone `7` and no order on row 16.
+Bootstrap sets `scroll-behavior: smooth`, and the script clicked while the page was
+still scrolling, so the click missed the Phone field. The script now scrolls instantly.
+It also listed its own blocked probe as an origin. Both were faults of the script;
+nothing in `src/` changed between the two runs.
+
 ## Tools — rows 1–3 and 13 (final commit `91b0dab`)
 
 | # | Command | Result |

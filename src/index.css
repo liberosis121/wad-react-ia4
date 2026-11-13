@@ -3,6 +3,16 @@
 /* Touch targets: a Bootstrap .btn and .form-control are 38 px tall. */
 .btn, .form-control { min-height: 44px; }
 
+/* Keyboard focus: Bootstrap's translucent rings are under 3:1 on white.
+   A solid outline in #0a58ca is 6.4:1; the offset keeps it off the control's
+   own colour. The tag + class selectors outrank Bootstrap's `outline: 0`. */
+button:focus-visible, button.btn:focus-visible,
+input:focus-visible, input.form-control:focus-visible,
+textarea:focus-visible, textarea.form-control:focus-visible {
+  outline: 3px solid #0a58ca;
+  outline-offset: 2px;
+}
+
 /* The status line is always in the page: keep its line so the list does not jump. */
 .status { min-height: 1.5rem; }
 

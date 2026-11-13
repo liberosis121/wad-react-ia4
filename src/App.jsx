@@ -46,7 +46,7 @@ export default function App() {
         <div className="layout">
           <ProductList products={products} onAddToCart={addToCart} />
           <div className="sidebar">
-            <CartSummary items={cart} />
+            <CartSummary items={cart} onOrderPlaced={() => setCart([])} />
             <SavedPanel />
           </div>
         </div>

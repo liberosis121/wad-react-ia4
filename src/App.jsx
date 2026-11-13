@@ -3,6 +3,9 @@ import useProducts from './useProducts.js';
 import SearchBox from './components/SearchBox.jsx';
 import ProductList from './components/ProductList.jsx';
 import CartSummary from './components/CartSummary.jsx';
+import Header from './components/Header.jsx';
+import SavedPanel from './components/SavedPanel.jsx';
+import { WishlistProvider } from './WishlistContext.jsx';
 
 function statusText({ loading, failed, products }) {
   if (loading) return 'Loading products…';
@@ -29,18 +32,25 @@ export default function App() {
     });
   }
 
+  // The one WishlistProvider of the page: the header, the cards and the Saved
+  // panel all read the same wishlist through useWishlist().
   return (
-    <main>
-      <h1>Shop</h1>
-      <SearchBox value={query} onChange={setQuery} />
-      <p role="status" className="status">{statusText({ loading, failed, products })}</p>
-      {failed && (
-        <button type="button" className="retry" onClick={retry}>Retry</button>
-      )}
-      <div className="layout">
-        <ProductList products={products} onAddToCart={addToCart} />
-        <CartSummary items={cart} />
-      </div>
-    </main>
+    <WishlistProvider>
+      <Header />
+      <main>
+        <SearchBox value={query} onChange={setQuery} />
+        <p role="status" className="status">{statusText({ loading, failed, products })}</p>
+        {failed && (
+          <button type="button" className="retry" onClick={retry}>Retry</button>
+        )}
+        <div className="layout">
+          <ProductList products={products} onAddToCart={addToCart} />
+          <div className="sidebar">
+            <CartSummary items={cart} />
+            <SavedPanel />
+          </div>
+        </div>
+      </main>
+    </WishlistProvider>
   );
 }

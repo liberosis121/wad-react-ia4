@@ -1,9 +1,11 @@
 import { useId, useState } from 'react';
 import { formatPrice } from '../format.js';
+import { useWishlist } from '../WishlistContext.jsx';
 
 export default function ProductCard({ product, onAddToCart }) {
   const [open, setOpen] = useState(false);
   const descriptionId = useId();
+  const { isSaved, toggle } = useWishlist();
 
   return (
     <li className="card">
@@ -17,6 +19,9 @@ export default function ProductCard({ product, onAddToCart }) {
           onClick={() => setOpen((wasOpen) => !wasOpen)}
         >
           Details
+        </button>
+        <button type="button" aria-pressed={isSaved(product.id)} onClick={() => toggle(product)}>
+          Save
         </button>
         <button type="button" onClick={() => onAddToCart(product)}>Add to cart</button>
       </div>
